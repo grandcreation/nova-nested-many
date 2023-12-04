@@ -41,6 +41,14 @@ class NestedManyServiceProvider extends ServiceProvider
         NovaRequest::macro('getNestedPropagated', function ($key) {
             return \Illuminate\Support\Arr::get($this->nestedPropagated ?? [], $key);
         });
+
+        NovaRequest::macro('getConvertedFiles', function () {
+            return $this->convertedFiles;
+        });
+
+        NovaRequest::macro('setConvertedFiles', function ($files) {
+            $this->convertedFiles = $files;
+        });
     }
 
     /**

@@ -283,6 +283,7 @@ trait NestedStorable
             $request->route()->forgetParameter('resourceId');
 
             $newRequest = NovaRequest::createFrom($request);
+            $newRequest->setConvertedFiles($request->getConvertedFiles());
 
             $this->deleteChildren($newRequest, $childrenToDelete);
 
@@ -326,6 +327,7 @@ trait NestedStorable
         $createRequest['editMode'] = 'create';
 
         $createRequest->files = collect($request->file("{$this->attribute}.{$index}"));
+        $createRequest->setConvertedFiles($request->getConvertedFiles());
 
         return (new ResourceStoreController())->__invoke($createRequest);
     }
@@ -351,6 +353,7 @@ trait NestedStorable
         $updateRequest->route()->setParameter('resourceId', $child['model']->getKey());
 
         $updateRequest->files = collect($request->file("{$this->attribute}.{$index}"));
+        $updateRequest->setConvertedFiles($request->getConvertedFiles());
 
         return (new ResourceUpdateController())->__invoke($updateRequest);
     }
